@@ -13,7 +13,7 @@ import pandas as pd
 from storage import store_ohlcv, load_ohlcv
 
 
-def get_exchange(exchange_id: str = "binanceus") -> ccxt.Exchange:
+def get_exchange(exchange_id: str = "binance") -> ccxt.Exchange:
     """Get a ccxt exchange instance (public, no auth)."""
     exchange_class = getattr(ccxt, exchange_id)
     exchange = exchange_class({

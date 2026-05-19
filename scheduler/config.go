@@ -719,6 +719,8 @@ func LoadConfig(path string) (*Config, error) {
 				cfg.Strategies[i].Platform = "luno"
 			case strings.HasPrefix(cfg.Strategies[i].ID, "okx-"):
 				cfg.Strategies[i].Platform = "okx"
+			case strings.HasPrefix(cfg.Strategies[i].ID, "binance-"):
+				cfg.Strategies[i].Platform = "binance"
 			case cfg.Strategies[i].Type == "options":
 				cfg.Strategies[i].Platform = "deribit"
 			default:

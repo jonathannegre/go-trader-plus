@@ -425,7 +425,7 @@ func generateConfig(opts InitOptions) *Config {
 				cfg.Strategies = append(cfg.Strategies, StrategyConfig{
 					ID:              id,
 					Type:            "spot",
-					Platform:        "binanceus",
+					Platform:        "binance",
 					Script:          "shared_scripts/check_strategy.py",
 					Args:            []string{stratID, sym, "1h"},
 					Capital:         opts.SpotCapital,
@@ -443,7 +443,7 @@ func generateConfig(opts InitOptions) *Config {
 				cfg.Strategies = append(cfg.Strategies, StrategyConfig{
 					ID:              id,
 					Type:            "spot",
-					Platform:        "binanceus",
+					Platform:        "binance",
 					Script:          "shared_scripts/check_strategy.py",
 					Args:            []string{"pairs_spread", assetSymbol[a1], "1d", assetSymbol[a2]},
 					Capital:         opts.SpotCapital,

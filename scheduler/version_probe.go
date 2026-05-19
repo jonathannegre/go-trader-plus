@@ -63,7 +63,7 @@ var executeProbeArgv = []string{
 // helper is not a configured strategy script, so it needs its own argv shape to
 // catch stale Python deploys before the dashboard starts returning 500s.
 var fetchCandlesProbeArgv = []string{
-	"--platform=binanceus", "--type=spot", "--symbol=BTC/USDT", "--timeframe=1h", "--limit=1", "--probe-only",
+	"--platform=binance", "--type=spot", "--symbol=BTC/USDT", "--timeframe=1h", "--limit=1", "--probe-only",
 }
 
 const probeTimeout = 15 * time.Second

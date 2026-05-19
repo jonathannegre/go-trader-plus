@@ -83,9 +83,56 @@ def fetch_robinhood_balance():
         rh.logout()
 
 
+def fetch_binance_balance():
+    """Fetch total equity from Binance global (spot + futures) via CCXT."""
+    import ccxt
+
+    api_key = os.environ.get("BINANCE_API_KEY", "")
+    api_secret = os.environ.get("BINANCE_API_SECRET", "")
+
+    if not (api_key and api_secret):
+        raise ValueError("BINANCE_API_KEY and BINANCE_API_SECRET env vars required")
+
+    config = {
+        "apiKey": api_key,
+        "secret": api_secret,
+        "enableRateLimit": True,
+    }
+
+    exchange = ccxt.binance(config)
+    balance = exchange.fetch_balance()
+    total = balance.get("total", {})
+
+    # Sum all assets converted to USDT
+    usdt_total = float(total.get("USDT", 0)) + float(total.get("USDC", 0))
+
+    # Add BTC value
+    btc_amount = float(total.get("BTC", 0))
+    if btc_amount > 0:
+        try:
+            ticker = exchange.fetch_ticker("BTC/USDT")
+            btc_price = float(ticker.get("last", 0))
+            usdt_total += btc_amount * btc_price
+        except Exception:
+            pass
+
+    # Add ETH value
+    eth_amount = float(total.get("ETH", 0))
+    if eth_amount > 0:
+        try:
+            ticker = exchange.fetch_ticker("ETH/USDT")
+            eth_price = float(ticker.get("last", 0))
+            usdt_total += eth_amount * eth_price
+        except Exception:
+            pass
+
+    return usdt_total
+
+
 PLATFORM_FETCHERS = {
     "okx": fetch_okx_balance,
     "robinhood": fetch_robinhood_balance,
+    "binance": fetch_binance_balance,
 }
 
 

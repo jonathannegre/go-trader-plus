@@ -76,6 +76,11 @@ def _load_adapter(platform, mode):
         from adapter import RobinhoodExchangeAdapter
 
         return RobinhoodExchangeAdapter(mode=mode or "paper")
+    if platform == "binance":
+        sys.path.insert(0, os.path.join(ROOT, "platforms", "binance"))
+        from adapter import BinanceExchangeAdapter
+
+        return BinanceExchangeAdapter()
     return None
 
 
@@ -93,9 +98,9 @@ def _fetch(args):
     symbol = args.symbol
     if "/" not in symbol and args.type in ("perps", "manual"):
         symbol = f"{symbol}/USDT"
-    exchange_id = args.platform if args.platform else "binanceus"
+    exchange_id = args.platform if args.platform else "binance"
     if exchange_id in ("manual", "hyperliquid"):
-        exchange_id = "binanceus"
+        exchange_id = "binance"
     df = fetch_ohlcv(
         symbol=symbol,
         timeframe=args.timeframe,
